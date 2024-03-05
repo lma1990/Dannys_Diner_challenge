@@ -80,11 +80,70 @@ DESC
 Which item was the most popular for each customer?
 
 ```
-
+SELECT
+	sales.customer_id,
+	menu.product_name,
+    COUNT(customer_id) AS total_ordered
+    
+FROM
+	dannys_diner.sales
+	JOIN
+		dannys_diner.menu ON sales.product_id = menu.product_id
+GROUP BY
+	sales.customer_id,
+	menu.product_name
+ORDER BY
+	sales.customer_id,
+    menu.product_name
+ASC
+```
 
 Which item was purchased first by the customer after they became a member?
+
+```
+SELECT
+	sales.customer_id,
+	sales.order_date,
+    sales.product_id   
+FROM
+	dannys_diner.sales
+	JOIN
+		dannys_diner.members ON sales.customer_id = members.customer_id
+WHERE
+	sales.order_date > members.join_date
+GROUP BY
+	sales.customer_id,
+    sales.order_date,
+    sales.product_id 
+ORDER BY
+	sales.customer_id,
+    sales.order_date
+```
+
 Which item was purchased just before the customer became a member?
+```
+SELECT
+	sales.customer_id,
+	sales.order_date,
+    sales.product_id   
+FROM
+	dannys_diner.sales
+	JOIN
+		dannys_diner.members ON sales.customer_id = members.customer_id
+WHERE
+	sales.order_date < members.join_date
+GROUP BY
+	sales.customer_id,
+    sales.order_date,
+    sales.product_id 
+ORDER BY
+	sales.customer_id,
+    sales.order_date
+```
+
 What is the total items and amount spent for each member before they became a member?
+
+
 If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
