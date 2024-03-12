@@ -132,9 +132,26 @@ How many pizzas were delivered that had both exclusions and extras?
 
 What was the total volume of pizzas ordered for each hour of the day?
 ```
-Select
-
+SELECT 
+	EXTRACT(HOUR FROM order_time) AS hour,
+    count(order_id) AS pizza_ordered   
 FROM
-
-
+	pizza_runner.customer_orders
+GROUP BY
+	order_time
+```
 What was the volume of orders for each day of the week?
+SELECT 
+	to_date(cast(order_time as TEXT),'YYYY-MM-DD') AS CURRENT_DATE,
+    count(order_id) AS pizza_ordered   
+FROM
+	pizza_runner.customer_orders
+GROUP BY
+	order_time,
+    order_id
+ORDER BY
+    order_id
+
+
+```
+
